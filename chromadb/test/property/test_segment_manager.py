@@ -72,7 +72,7 @@ class SegmentManagerStateMachine(RuleBasedStateMachine):
         index = 0
         for id in reversed(self.last_use.store):
             cache_sum += self.collection_size_store[id]
-            if cache_sum >= memory_limit and index is not 0:
+            if cache_sum >= memory_limit and index != 0:
                 break
             assert id in self.segment_manager.segment_cache[SegmentScope.VECTOR].cache
             index += 1

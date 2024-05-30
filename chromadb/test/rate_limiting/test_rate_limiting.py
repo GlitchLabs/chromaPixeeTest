@@ -42,9 +42,9 @@ def test_rate_limiting_should_raise(rate_limiting_gym: RateLimitingGym):
 @patch('chromadb.quota.test_provider.QuotaProviderForTest.get_for_subject', mock_get_for_subject)
 @patch('chromadb.rate_limiting.test_provider.RateLimitingTestProvider.is_allowed', lambda self, key, quota, point=1: True)
 def test_rate_limiting_should_not_raise(rate_limiting_gym: RateLimitingGym):
-    assert rate_limiting_gym.bench(foo="foo", bar="bar") is "foo"
+    assert rate_limiting_gym.bench(foo="foo", bar="bar") == "foo"
 
 @patch('chromadb.quota.test_provider.QuotaProviderForTest.get_for_subject', mock_get_for_subject)
 @patch('chromadb.rate_limiting.test_provider.RateLimitingTestProvider.is_allowed', lambda self, key, quota, point=1: True)
 def test_rate_limiting_should_not_raise(rate_limiting_gym: RateLimitingGym):
-    assert rate_limiting_gym.bench("foo", "bar") is "foo"
+    assert rate_limiting_gym.bench("foo", "bar") == "foo"
