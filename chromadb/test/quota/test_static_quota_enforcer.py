@@ -1,4 +1,3 @@
-import random
 import string
 from typing import Optional, List, Tuple, Any
 from unittest.mock import patch
@@ -6,10 +5,11 @@ from unittest.mock import patch
 from chromadb.config import System, Settings
 from chromadb.quota import QuotaEnforcer, Resource
 import pytest
+import secrets
 
 
 def generate_random_string(size: int) -> str:
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=size))
+    return ''.join(secrets.SystemRandom().choices(string.ascii_letters + string.digits, k=size))
 
 def mock_get_for_subject(self, resource: Resource, subject: Optional[str] = "", tier: Optional[str] = "") -> Optional[
     int]:
@@ -61,16 +61,16 @@ def test_static_enforcer_documents(enforcer):
 @patch('chromadb.quota.test_provider.QuotaProviderForTest.get_for_subject', mock_get_for_subject)
 def test_static_enforcer_embeddings(enforcer):
     test_cases = [
-        (random.sample(range(1, 101), 100), "EMBEDDINGS_DIMENSION"),
-        (random.sample(range(1, 101), 5), None)
+        (secrets.SystemRandom().sample(range(1, 101), 100), "EMBEDDINGS_DIMENSION"),
+        (secrets.SystemRandom().sample(range(1, 101), 5), None)
     ]
     run_static_checks(enforcer, test_cases, 'embeddings')
 
 # Should not raise an error if no quota provider is present
 def test_enforcer_without_quota_provider():
     test_cases = [
-        (random.sample(range(1, 101), 1), None),
-        (random.sample(range(1, 101), 5), None)
+        (secrets.SystemRandom().sample(range(1, 101), 1), None),
+        (secrets.SystemRandom().sample(range(1, 101), 5), None)
     ]
     settings = Settings()
     system = System(settings)
