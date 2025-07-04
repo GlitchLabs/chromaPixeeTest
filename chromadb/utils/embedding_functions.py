@@ -27,6 +27,7 @@ import importlib
 import inspect
 import json
 import sys
+from security import safe_requests
 
 try:
     from chromadb.is_thin_client import is_thin_client
@@ -421,7 +422,7 @@ class ONNXMiniLM_L6_V2(EmbeddingFunction[Documents]):
         retry=retry_if_exception(lambda e: "does not match expected SHA256" in str(e)),
     )
     def _download(self, url: str, fname: str, chunk_size: int = 1024) -> None:
-        resp = requests.get(url, stream=True)
+        resp = safe_requests.get(url, stream=True)
         total = int(resp.headers.get("content-length", 0))
         with open(fname, "wb") as file, self.tqdm(
             desc=str(fname),
