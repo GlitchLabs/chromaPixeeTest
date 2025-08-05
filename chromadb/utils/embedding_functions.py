@@ -421,7 +421,7 @@ class ONNXMiniLM_L6_V2(EmbeddingFunction[Documents]):
         retry=retry_if_exception(lambda e: "does not match expected SHA256" in str(e)),
     )
     def _download(self, url: str, fname: str, chunk_size: int = 1024) -> None:
-        resp = requests.get(url, stream=True)
+        resp = requests.get(url, stream=True, timeout=60)
         total = int(resp.headers.get("content-length", 0))
         with open(fname, "wb") as file, self.tqdm(
             desc=str(fname),
